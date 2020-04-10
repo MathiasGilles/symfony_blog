@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href="{{path('article_edit', {id: article.id})}}">Modifier</a>    
+        <a class="btn btn-danger" href="{{path('article_delete', {id: article.id})}}">Supprimer</a>
+        {% if article.status == true %}
+        <h5>Publié le {{article.publishedAt|date("d/m/Y à h:i:s")}}</h5>
+        {% else %}
+        <h5>Pas encore publié</h5>
+        <a class="btn btn-primary"
+            href="{{path('article_status', {id: article.id})}}">Publier</a>
+        {% endif %}
+    {% endif %}
+    <h1>{{article.title}}</h1> <a class="btn btn-primary" href="{{path('comment_new', {id: article.id})}}">Ajouter un commentaire</a> 
+    <h5>Catégorie : {{article.category.title}}</h5>
+    <div>{{article.content}}</div>
+
+    <h2>Commentaires</h2>
+    {% for comment in article.comments  %}
+    {% if is_granted('ROLE_USR') and comment.status == true %}
+        
+    {% endif %}
+    <ul>
+        <li>{{comment.content}}
+            <br>
+            Publié par {{comment.author.email}} le {{comment.publishedAt|date("d/m/Y")}}
+            <br>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-danger" href="{{path('comment_delete', {id: comment.id})}}">Supprimer le commentaire</a>
+            {% if comment.status == true %}
+                <a class="btn btn-danger" href="{{path('comment_status', {id: comment.id})}}">Caché le commentaire</a>
+            {% else %}
+                <a class="btn btn-primary" href="{{path('comment_status', {id: comment.id})}}">Activé le commentaire</a>
+            {% endif %}
+            {% endif %}
+        </li>
+    </ul>
+    {% endfor %}
+        
+    
+    <br><br>
+    <a class="btn btn-primary" href="{{ path('article_index') }}">back to list</a>
+{% endblock %}

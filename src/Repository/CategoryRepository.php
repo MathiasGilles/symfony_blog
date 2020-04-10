@@ -19,23 +19,33 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    // /**
-    //  * @return Category[] Returns an array of Category objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+     * @return Category[] Returns an array of Category objects
+     */ 
+
+     public function lastThreeCategories()
+     {
+         $manager = $this->getEntityManager();
+
+         $qb =$this->createQueryBuilder('p')
+         ->orderBy('p.id','DESC')
+         ->setMaxResults(3);
+
+         $query = $qb->getQuery();
+
+         return $query->execute();
+     }
+
+    /* public function getLastCategories()
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT * from category')
+            ->setMaxResults(3);
+        $query->getQuery();
+        $query->getResult();
     }
     */
-
+    
     /*
     public function findOneBySomeField($value): ?Category
     {

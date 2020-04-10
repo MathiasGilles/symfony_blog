@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>Categories</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Articles</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.title }}</td>
+                <td>
+                    {% if category.articles is not empty %}
+                        {% for articles in category.articles %}
+                            <ul style="list-style: none;">
+                                <li>
+                                    {{articles.title}} <a class="btn btn-primary"
+                                        href="{{path('article_show', {id: articles.id})}}">Voir cette article</a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% else %}
+                        <span>Pas d'article dans cette catégorie</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        
+                    <a class="btn btn-primary" href="{{ path('category_delete', {'id': category.id}) }}">delete</a>
+                    <a class="btn btn-primary" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                    
+                    {% else %}
+                      
+                    <span>Admin Only</span>
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

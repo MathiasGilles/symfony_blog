@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<h1>Last categories</h1>
+{% if categories is not empty %}
+
+{% for category in categories %}
+<a class="btn btn-primary" href="{{path('category_show', {id:category.id})}}">{{category.title}}</a>
+{% endfor %}
+
+{% else %}
+    
+<p>Il n'y a pas de catégories</p>
+
+{% endif %}
+
+
+<br><br><br>
+
+{% if is_granted('ROLE_ADMIN') %}
+<h3>Admin Rights :</h3>
+    <a class="btn btn-primary" href="{{path('category_new')}}">Create category</a>
+    <a class="btn btn-primary" href="{{path('article_new')}}">Create article</a>
+{% endif %}
+{% endblock %}
