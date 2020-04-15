@@ -60,7 +60,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/comment/status/{id}",name="comment_status")
      */
-    public function status($id = null, Request $request, CommentRepository $repo)
+    public function status($id = null,CommentRepository $repo)
     {
 
         if ($id != null) {

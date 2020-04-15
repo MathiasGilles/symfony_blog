@@ -19,6 +19,17 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+
+    public function articlesHome()
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->where('a.position IS NOT NULL')
+            ->orderby('a.position', 'ASC')
+            ->setMaxResults(3);
+        $articles = $qb->getQuery();
+        return $articles->execute();
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

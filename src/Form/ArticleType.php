@@ -20,6 +20,7 @@ class ArticleType extends AbstractType
                 'choice_label' => 'title',
                 'class' => Category::class,
             ])
+            ->add('position')
         ;
     }
 

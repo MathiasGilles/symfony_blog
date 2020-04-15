@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -41,6 +42,17 @@ class Comment
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments")
      */
     private $article;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 5,
+     *      minMessage = "La note doit être au minimum 0",
+     *      maxMessage = "La note doit être au maximum 5"
+     * )
+     */
+    private $note = 0;
 
     public function getId(): ?int
     {
@@ -103,6 +115,18 @@ class Comment
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(int $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }
